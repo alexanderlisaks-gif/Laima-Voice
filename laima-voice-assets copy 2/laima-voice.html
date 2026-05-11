@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laima Voice — International Vocal Contest</title>
+  <meta name="description" content="Laima Voice is an international vocal contest connected to the Laima Rendezvous Jurmala festival. Apply for casting and take the stage.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: #1A1A1A;
+      background: #fff;
+      padding-top: 80px;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+    button { font-family: 'Montserrat', sans-serif; }
+
+    :root {
+      --red: #E40728;
+      --red-nav: #c8102e;
+      --dark: #1A1A1A;
+      --gray: #f2f2f2;
+      --white: #fff;
+    }
+
+    /* ── HEADER ── */
+    .lv-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      padding: 0 48px;
+      background: #fff;
+      box-shadow: 0 2px 16px rgba(0,0,0,.08);
+      border-bottom: 1px solid rgba(26,26,26,.1);
+    }
+    .lv-header-inner {
+      display: flex; align-items: center; height: 80px; gap: 36px;
+    }
+    .lv-logo { display: flex; align-items: center; flex-shrink: 0; }
+    .lv-logo img {
+      height: 42px; width: auto;
+    }
+
+    .lv-nav { display: flex; align-items: center; gap: 24px; }
+    .lv-nav a {
+      font-size: 11px; font-weight: 700; letter-spacing: 1.8px;
+      text-transform: uppercase; color: #444;
+      transition: color .2s; white-space: nowrap;
+    }
+    .lv-nav a:hover { color: var(--red-nav); }
+
+    .lv-header-right { margin-left: auto; display: flex; align-items: center; gap: 18px; flex-shrink: 0; }
+
+    /* Language switcher */
+    .lv-lang { display: flex; align-items: center; gap: 2px; }
+    .lv-lang button {
+      background: none; border: none; cursor: pointer;
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: #aaa;
+      padding: 4px 6px; transition: color .2s; line-height: 1;
+    }
+    .lv-lang button:hover, .lv-lang button.active { color: var(--red-nav); }
+    .lv-lang-sep { color: #ddd; font-size: 10px; user-select: none; }
+
+    .lv-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--red); color: #fff;
+      font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+      padding: 0 22px; height: 46px; border: 2px solid var(--red);
+      cursor: pointer; transition: background .2s, border-color .2s, color .2s;
+      white-space: nowrap;
+    }
+    .lv-btn:hover { background: #c8102e; border-color: #c8102e; }
+    .lv-btn-ghost { background: transparent; border-color: rgba(255,255,255,.4); }
+    .lv-btn-ghost:hover { background: transparent; border-color: #fff; }
+    .lv-btn-outline { background: transparent; border-color: var(--red); color: var(--red); }
+    .lv-btn-outline:hover { background: var(--red); color: #fff; }
+    .lv-btn-dark { background: var(--dark); border-color: var(--dark); }
+    .lv-btn-dark:hover { background: #333; border-color: #333; }
+    .lv-btn-white { background: #fff; border-color: #fff; color: var(--red); }
+    .lv-btn-white:hover { background: #f0f0f0; border-color: #f0f0f0; }
+    .lv-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; flex-shrink: 0; }
+
+    .lv-hamburger {
+      display: none; background: none; border: none; cursor: pointer; padding: 6px;
+    }
+    .lv-hamburger svg { stroke: var(--dark); width: 26px; height: 26px; stroke-width: 2; fill: none; }
+
+    /* Mobile nav */
+    .lv-mobile-nav {
+      display: none; position: fixed; inset: 0; z-index: 10000;
+      background: #fff; flex-direction: column; overflow-y: auto;
+    }
+    .lv-mobile-nav.open { display: flex; }
+    .lv-mob-top {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px; border-bottom: 1px solid #eee;
+    }
+    .lv-mob-top .lv-logo img { filter: none; height: 34px; }
+    .lv-mob-close { background: none; border: none; cursor: pointer; padding: 6px; }
+    .lv-mob-close svg { stroke: var(--dark); width: 24px; height: 24px; stroke-width: 2; fill: none; }
+    .lv-mob-links { padding: 12px 24px; flex: 1; }
+    .lv-mob-links a {
+      display: block; padding: 15px 0;
+      font-size: 24px; font-weight: 700; text-transform: uppercase;
+      color: var(--dark); border-bottom: 1px solid #f0f0f0; transition: color .2s;
+    }
+    .lv-mob-links a:hover { color: var(--red); }
+    .lv-mob-lang {
+      display: flex; gap: 16px; padding: 16px 24px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .lv-mob-lang button {
+      background: none; border: none; cursor: pointer;
+      font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: #aaa; transition: color .2s;
+    }
+    .lv-mob-lang button.active, .lv-mob-lang button:hover { color: var(--red); }
+    .lv-mob-bottom { padding: 24px; }
+    .lv-mob-bottom .lv-btn { width: 100%; justify-content: center; height: 54px; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; height: calc(100vh - 80px); min-height: 580px;
+      display: flex; align-items: flex-end; overflow: hidden; background: #050505;
+    }
+    .hero-vid { position: absolute; inset: 0; }
+    .hero-vid video { width: 100%; height: 100%; object-fit: cover; opacity: .62; }
+    .hero-vid::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.38) 55%, rgba(0,0,0,.1) 100%);
+    }
+    .hero-body {
+      position: relative; z-index: 2; width: 100%; padding: 72px 80px;
+    }
+    .hero h1 {
+      font-family: 'Space Mono', 'JetBrains Mono', serif;
+      font-size: clamp(56px, 9vw, 112px);
+      font-weight: 900; line-height: .95; color: #fff;
+      margin-bottom: 16px; letter-spacing: -1.5px; text-transform: uppercase;
+    }
+    .hero-sub {
+      font-size: 20px; font-weight: 300; color: rgba(255,255,255,.75);
+      margin-bottom: 20px; font-style: italic;
+    }
+    .hero-desc {
+      font-size: 16px; line-height: 1.72; color: rgba(255,255,255,.6);
+      max-width: 540px; margin-bottom: 44px;
+    }
+    .hero-btns { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .hero-scroll {
+      position: absolute; right: 64px; bottom: 48px; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      color: rgba(255,255,255,.3); font-size: 9px; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+    }
+    .hero-scroll::after {
+      content: ''; width: 1px; height: 52px; background: rgba(255,255,255,.2);
+      animation: scrollLine 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      49%  { transform: scaleY(1); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ── SECTION COMMONS ── */
+    .section { padding: 104px 80px; }
+    .section-dark { background: var(--dark); color: #fff; }
+    .section-gray { background: var(--gray); }
+    .section-red { background: var(--red); color: #fff; }
+
+    .sec-label {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 10px; font-weight: 700; letter-spacing: 3.5px;
+      text-transform: uppercase; color: var(--red); margin-bottom: 16px;
+    }
+    .sec-label::before { content: ''; width: 22px; height: 2px; background: var(--red); flex-shrink: 0; }
+    .section-dark .sec-label { color: var(--red); }
+    .section-red .sec-label { color: rgba(255,255,255,.7); }
+    .section-red .sec-label::before { background: rgba(255,255,255,.7); }
+
+    .sec-heading {
+      font-family: 'Space Mono', 'JetBrains Mono', serif;
+      font-size: clamp(32px, 4vw, 56px);
+      font-weight: 900; line-height: 1.05; color: var(--dark); margin-bottom: 16px;
+    }
+    .section-dark .sec-heading { color: #fff; }
+    .section-red .sec-heading { color: #fff; }
+    .sec-subtitle {
+      font-size: 16px; color: rgba(255,255,255,.55); margin-bottom: 0;
+      font-style: italic;
+    }
+    .sec-text { font-size: 17px; line-height: 1.78; color: #555; }
+    .section-dark .sec-text { color: rgba(255,255,255,.55); }
+    .section-red .sec-text { color: rgba(255,255,255,.8); }
+    .red-bar { width: 48px; height: 3px; background: var(--red); margin: 22px 0 40px; }
+    .section-dark .red-bar { background: var(--red); }
+    .section-red .red-bar { background: rgba(255,255,255,.5); }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 88px; align-items: center; margin-top: 8px;
+    }
+    .about-img { position: relative; }
+    .about-img img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+    .about-badge {
+      position: absolute; bottom: -24px; right: -24px;
+      background: var(--red); color: #fff;
+      width: 120px; height: 120px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    }
+    .about-badge-yr {
+      font-family: 'Space Mono', 'JetBrains Mono', serif; font-size: 36px; font-weight: 900; line-height: 1;
+    }
+    .about-badge-lbl {
+      font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; opacity: .8; margin-top: 5px;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; margin-top: 56px;
+    }
+    .step {
+      background: rgba(255,255,255,.04); padding: 48px 36px;
+      position: relative; border-top: 2px solid rgba(255,255,255,.07);
+      transition: border-color .25s;
+    }
+    .step:hover { border-top-color: var(--red); }
+    .step-num {
+      font-family: 'Space Mono', 'JetBrains Mono', serif; font-size: 72px; font-weight: 900;
+      color: rgba(255,255,255,.05); line-height: 1;
+      position: absolute; top: 24px; right: 24px; user-select: none;
+    }
+    .step-icon {
+      width: 44px; height: 44px; background: var(--red);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 24px;
+    }
+    .step-icon svg { stroke: #fff; width: 20px; height: 20px; stroke-width: 2; fill: none; }
+    .step-title {
+      font-family: 'Space Mono', 'JetBrains Mono', serif; font-size: 18px; font-weight: 700;
+      color: #fff; margin-bottom: 12px;
+    }
+    .step-text { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,.48); }
+    .steps-note {
+      margin-top: 40px; font-size: 14px; color: rgba(255,255,255,.38);
+      font-style: italic; border-left: 2px solid var(--red); padding-left: 16px;
+    }
+
+    /* ── APPLY ── */
+    .apply-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 88px; align-items: start;
+    }
+    .apply-notice {
+      display: flex; align-items: flex-start; gap: 14px;
+      background: #fff8e1; border-left: 3px solid #f59e0b;
+      padding: 16px 20px; margin-top: 32px; margin-bottom: 0;
+    }
+    .apply-notice p { font-size: 14px; color: #78350f; line-height: 1.55; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+    .form-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: #666;
+    }
+    .form-input {
+      width: 100%; padding: 13px 15px;
+      border: 1.5px solid #e0e0e0; font-family: 'Montserrat', sans-serif;
+      font-size: 15px; color: var(--dark); outline: none;
+      transition: border-color .2s; background: #fff; border-radius: 0; -webkit-appearance: none;
+    }
+    .form-input:focus { border-color: var(--red); }
+    .form-input::placeholder { color: #bbb; }
+    textarea.form-input { resize: vertical; min-height: 110px; }
+    .form-check {
+      display: flex; align-items: flex-start; gap: 11px; margin-bottom: 22px;
+    }
+    .form-check input[type="checkbox"] {
+      width: 16px; height: 16px; accent-color: var(--red);
+      flex-shrink: 0; margin-top: 3px; cursor: pointer;
+    }
+    .form-check label { font-size: 13px; color: #666; line-height: 1.55; cursor: pointer; }
+    .form-check a { color: var(--red); }
+    .form-submit { width: 100%; justify-content: center; height: 52px; font-size: 11px; }
+    #form-success {
+      display: none; background: #f0fdf4; border: 1.5px solid #4ade80;
+      padding: 20px 24px; color: #166534; font-size: 15px; font-weight: 500; margin-top: 16px;
+    }
+
+    /* ── TICKETS ── */
+    .tickets-inner {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 60px; align-items: center;
+    }
+
+    /* ── PREVIOUS EDITION ── */
+    .prev-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 56px;
+    }
+    .prev-card { display: flex; flex-direction: column; gap: 14px; }
+    .prev-card-label { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,.5); }
+    .prev-embed { position: relative; width: 100%; aspect-ratio: 16/9; }
+    .prev-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+    /* ── JURMALA JUNIOR ── */
+    .jj-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .jj-visual {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.1);
+      aspect-ratio: 4/3;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 20px;
+      color: rgba(255,255,255,.25); text-align: center;
+    }
+    .jj-visual svg { width: 64px; height: 64px; stroke: rgba(255,255,255,.2); fill: none; stroke-width: 1.5; }
+    .jj-visual p { font-size: 13px; letter-spacing: 1px; text-transform: uppercase; }
+
+    /* ── FAQ ── */
+    .faq-list { margin-top: 56px; display: flex; flex-direction: column; gap: 2px; }
+    .faq-item {
+      border-top: 1px solid #eee; overflow: hidden;
+    }
+    .faq-item:last-child { border-bottom: 1px solid #eee; }
+    .faq-question {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 0; background: none; border: none; cursor: pointer;
+      text-align: left; gap: 20px;
+    }
+    .faq-q-text {
+      font-family: 'Space Mono', 'JetBrains Mono', serif; font-size: 17px; font-weight: 600; color: var(--dark);
+    }
+    .faq-chevron {
+      width: 20px; height: 20px; flex-shrink: 0; transition: transform .25s;
+      stroke: #888; fill: none; stroke-width: 2;
+    }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); stroke: var(--red); }
+    .faq-item.open .faq-q-text { color: var(--red); }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: max-height .3s ease;
+    }
+    .faq-answer-inner {
+      padding: 0 0 22px; font-size: 15px; line-height: 1.72; color: #555;
+    }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 48px; margin-top: 56px;
+    }
+    .contact-block {}
+    .contact-block-title {
+      font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--red); margin-bottom: 16px;
+    }
+    .contact-block-val {
+      font-family: 'Space Mono', 'JetBrains Mono', serif; font-size: 20px; font-weight: 700;
+      color: #fff; word-break: break-all;
+    }
+    .contact-block-val a { color: #fff; transition: color .2s; }
+    .contact-block-val a:hover { color: var(--red); }
+    .social-links { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+    .social-link {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 15px; font-weight: 600; color: rgba(255,255,255,.55);
+      transition: color .2s;
+    }
+    .social-link:hover { color: #fff; }
+    .social-link::before {
+      content: ''; width: 4px; height: 4px; background: var(--red); flex-shrink: 0;
+    }
+
+    /* ── CTA BAND ── */
+    .cta-band {
+      background: var(--red); padding: 88px 80px;
+      display: flex; align-items: center; justify-content: space-between; gap: 48px;
+    }
+    .cta-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: rgba(255,255,255,.65); margin-bottom: 14px;
+    }
+    .cta-title {
+      font-family: 'Space Mono', 'JetBrains Mono', serif;
+      font-size: clamp(28px, 3.5vw, 48px); font-weight: 900; color: #fff; line-height: 1.08;
+    }
+    .cta-actions { display: flex; gap: 14px; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #090909; padding: 72px 80px 40px;
+      color: rgba(255,255,255,.38);
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 64px; padding-bottom: 56px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .footer-logo img { height: 34px; filter: brightness(0) invert(1); opacity: .7; margin-bottom: 18px; }
+    .footer-desc { font-size: 14px; line-height: 1.72; color: rgba(255,255,255,.32); max-width: 240px; }
+    .footer-socials { display: flex; gap: 10px; margin-top: 22px; }
+    .footer-social {
+      width: 34px; height: 34px; border: 1px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,.32); transition: border-color .2s, color .2s;
+    }
+    .footer-social:hover { border-color: var(--red); color: var(--red); }
+    .footer-social svg { width: 14px; height: 14px; fill: currentColor; }
+    .footer-col-title {
+      font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; color: #fff; margin-bottom: 20px;
+    }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: 14px; color: rgba(255,255,255,.35); transition: color .2s; }
+    .footer-links a:hover { color: #fff; }
+    .footer-contact p { font-size: 14px; line-height: 1.72; color: rgba(255,255,255,.35); }
+    .footer-contact a { color: rgba(255,255,255,.35); transition: color .2s; }
+    .footer-contact a:hover { color: var(--red); }
+    .footer-bottom {
+      margin-top: 40px; display: flex; align-items: center;
+      justify-content: space-between; font-size: 12px;
+      color: rgba(255,255,255,.18); flex-wrap: wrap; gap: 10px;
+    }
+    .footer-bottom a { color: rgba(255,255,255,.18); transition: color .2s; }
+    .footer-bottom a:hover { color: rgba(255,255,255,.5); }
+    .footer-lf { color: var(--red) !important; font-weight: 600; }
+    .footer-lf:hover { color: #fff !important; }
+
+    /* ── STAGE 1 INSTAGRAM SECTION ── */
+    .stage1-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start; margin-top: 56px;
+    }
+    .stage1-hashtag {
+      font-family: 'Space Mono', 'JetBrains Mono', monospace;
+      font-size: clamp(28px, 4vw, 48px); font-weight: 700;
+      color: var(--red); letter-spacing: -1px; margin-bottom: 12px;
+    }
+    .stage1-deadline {
+      font-size: 13px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: #888; margin-bottom: 32px;
+    }
+    .stage1-tag {
+      font-size: 15px; color: #555; margin-bottom: 32px;
+    }
+    .stage1-tag strong { color: var(--dark); }
+    .req-list {
+      list-style: none; display: flex; flex-direction: column; gap: 12px;
+      margin-bottom: 32px;
+    }
+    .req-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 15px; line-height: 1.55; color: #444;
+    }
+    .req-list li::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--red); flex-shrink: 0; margin-top: 8px;
+    }
+    .stage1-note {
+      font-size: 13px; color: #888; line-height: 1.6;
+      border-left: 2px solid #e0e0e0; padding-left: 16px;
+    }
+    .cert-banner {
+      margin-top: 64px; background: var(--gray);
+      padding: 40px 48px; display: flex; gap: 48px; align-items: center;
+    }
+    .cert-banner-icon { font-size: 40px; flex-shrink: 0; }
+    .cert-banner-title {
+      font-family: 'Space Mono', 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700;
+      color: var(--dark); margin-bottom: 10px;
+    }
+    .cert-banner-text { font-size: 15px; color: #555; line-height: 1.6; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1200px) {
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 1100px) {
+      .lv-nav, .header-cta { display: none; }
+      .lv-hamburger { display: flex; }
+      .about-grid, .stage1-grid, .jj-inner { grid-template-columns: 1fr; }
+      .about-badge { right: 0; bottom: 0; }
+      .tickets-inner { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .cta-band { flex-direction: column; text-align: center; }
+      .cta-actions { justify-content: center; }
+    }
+    @media (max-width: 768px) {
+      body { padding-top: 70px; }
+      .lv-header { padding: 0 20px; }
+      .lv-header-inner { height: 70px; }
+      .section { padding: 64px 24px; }
+      .hero-body { padding: 40px 24px; }
+      .hero-scroll { display: none; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .prev-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .cta-band { padding: 56px 24px; }
+      footer { padding: 56px 24px 32px; }
+      .footer-top { grid-template-columns: 1fr; gap: 40px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+      .lv-lang { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="lv-header" id="lv-header">
+  <div class="lv-header-inner">
+    <a href="#" class="lv-logo">
+      <img src="laima-voice-assets/logo-h.jpg" alt="Laima Voice">
+    </a>
+    <nav>
+      <ul class="lv-nav">
+        <li><a href="#about"   data-i18n="nav.about">About</a></li>
+        <li><a href="#how"     data-i18n="nav.howItWorks">How It Works</a></li>
+        <li><a href="#apply"   data-i18n="nav.apply">Apply</a></li>
+        <li><a href="#tickets" data-i18n="nav.tickets">Tickets</a></li>
+        <li><a href="#jurmala-junior" data-i18n="nav.jurmalaJunior">Jurmala Junior</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="lv-header-right">
+      <div class="lv-lang" id="lang-desktop">
+        <button class="active" data-lang="en">EN</button>
+        <span class="lv-lang-sep">|</span>
+        <button data-lang="lv">LV</button>
+        <span class="lv-lang-sep">|</span>
+        <button data-lang="ru">RU</button>
+      </div>
+      <a href="#apply" class="lv-btn header-cta">
+        <span data-i18n="nav.applyNow">Apply Now</span>
+        <svg viewBox="0 0 20 14"><path d="M13 1L19 7M19 7L13 13M19 7H1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <button class="lv-hamburger" id="lv-hamburger">
+        <svg viewBox="0 0 26 26"><line x1="3" y1="7" x2="23" y2="7"/><line x1="3" y1="13" x2="23" y2="13"/><line x1="3" y1="19" x2="23" y2="19"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="lv-mobile-nav" id="lv-mobile-nav">
+  <div class="lv-mob-top">
+    <a href="#" class="lv-logo"><img src="laima-voice-assets/logo-h.jpg" alt="Laima Voice" style="filter:none;height:34px;"></a>
+    <button class="lv-mob-close" id="lv-mob-close"><svg viewBox="0 0 24 24"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg></button>
+  </div>
+  <div class="lv-mob-lang" id="lang-mobile">
+    <button class="active" data-lang="en">EN</button>
+    <button data-lang="lv">LV</button>
+    <button data-lang="ru">RU</button>
+  </div>
+  <div class="lv-mob-links">
+    <a href="#about"          class="mob-link" data-i18n="nav.about">About</a>
+    <a href="#how"            class="mob-link" data-i18n="nav.howItWorks">How It Works</a>
+    <a href="#apply"          class="mob-link" data-i18n="nav.apply">Apply</a>
+    <a href="#tickets"        class="mob-link" data-i18n="nav.tickets">Tickets</a>
+    <a href="#jurmala-junior" class="mob-link" data-i18n="nav.jurmalaJunior">Jurmala Junior</a>
+    <a href="#contact"        class="mob-link" data-i18n="nav.contact">Contact</a>
+  </div>
+  <div class="lv-mob-bottom">
+    <a href="#apply" class="lv-btn mob-link" style="justify-content:center;">
+      <span data-i18n="nav.applyNow">Apply Now</span>
+      <svg viewBox="0 0 20 14"><path d="M13 1L19 7M19 7L13 13M19 7H1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-vid">
+    <video autoplay muted loop playsinline>
+      <source src="laima-voice-assets/fons.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-body">
+    <h1 data-i18n="hero.title">Laima Voice</h1>
+    <p class="hero-sub" data-i18n="hero.subtitle">International Vocal Contest</p>
+    <p class="hero-desc" data-i18n="hero.description">Laima Vaikule and the Laima Rendezvous Jūrmala festival invite talents from around the world to take part in the international vocal contest Laima Voice. Grand prize — a chance to perform on the same stage with the stars at Laima Rendezvous Jūrmala in 2027.</p>
+    <div class="hero-btns">
+      <a href="#how" class="lv-btn" style="height:58px;font-size:12px;letter-spacing:2.5px;">
+        <span data-i18n="hero.applyCasting">Take Part</span>
+        <svg viewBox="0 0 20 14"><path d="M13 1L19 7M19 7L13 13M19 7H1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#about" class="lv-btn lv-btn-ghost" style="height:58px;font-size:12px;letter-spacing:2.5px;" data-i18n="hero.learnMore">Learn More</a>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="about-grid">
+    <div class="about-img">
+      <img src="https://www.laimafestival.lv/wp-content/uploads/2026/04/2024-07-27-Laima-Rendezvous-Day2-RitvarsStankevics-1978-1.png" alt="Laima Rendezvous stage">
+    </div>
+    <div>
+      <p class="sec-label" data-i18n="about.title">About Laima Voice</p>
+      <h2 class="sec-heading" data-i18n="about.title">About Laima Voice</h2>
+      <div class="red-bar"></div>
+      <p class="sec-text" data-i18n="about.p1">Laima Voice is a vocal contest for talented singers who want to be seen, heard, and discovered. The contest gives young and emerging performers the opportunity to present themselves, take part in casting, and potentially become part of a wider musical event in Jurmala.</p>
+      <p class="sec-text" style="margin-top:20px;" data-i18n="about.p2">The first edition took place online five years ago, during the Covid period. Now the project is being relaunched with a new live format, bringing the contest to the heart of the Laima Rendezvous Jurmala festival.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section section-dark" id="how">
+  <p class="sec-label" data-i18n="howItWorks.title">How It Works</p>
+  <h2 class="sec-heading" data-i18n="howItWorks.title">How It Works</h2>
+  <p class="sec-subtitle" data-i18n="howItWorks.subtitle">Three stages to the main stage</p>
+  <div class="steps-grid">
+    <div class="step">
+      <span class="step-num">01</span>
+      <div class="step-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zM17.5 6.5h.01" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3 class="step-title" data-i18n="howItWorks.step1Title">Stage 1 — Online</h3>
+      <p class="step-text" data-i18n="howItWorks.step1Desc">Post a video of your vocal performance on Instagram with #laimavoice2026 by July 12, 2026. Open to everyone regardless of age or country.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <div class="step-icon">
+        <svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3 class="step-title" data-i18n="howItWorks.step2Title">Stage 2 — Live Casting</h3>
+      <p class="step-text" data-i18n="howItWorks.step2Desc">July 25, 2026 in Jurmala during the Laima Rendezvous Jūrmala festival. Selected participants are invited personally via Instagram DM. Entry fee: 70€.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <div class="step-icon">
+        <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3 class="step-title" data-i18n="howItWorks.step3Title">Stage 3 — Final & Grand Prize</h3>
+      <p class="step-text" data-i18n="howItWorks.step3Desc">Finalists meet Laima Vaikule personally online in September. She gives vocal challenges throughout the year and chooses the winner. Grand Prize — perform on stage at Laima Rendezvous Jūrmala 2027.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STAGE 1: INSTAGRAM -->
+<section class="section" id="apply">
+  <p class="sec-label" data-i18n="apply.label">Stage 1</p>
+  <h2 class="sec-heading" data-i18n="apply.title">Post Your Performance</h2>
+  <div class="red-bar"></div>
+  <div class="stage1-grid">
+    <div>
+      <div class="stage1-hashtag">#laimavoice2026</div>
+      <p class="stage1-deadline" data-i18n="apply.deadline">Deadline: 12 July 2026</p>
+      <p class="stage1-tag" data-i18n-html="apply.tagLine">Tag <strong>@laimafestival</strong> so we don't miss you!</p>
+      <a href="https://www.instagram.com/laimafestival/" target="_blank" rel="noopener" class="lv-btn" style="height:52px;font-size:11px;letter-spacing:2.5px;margin-bottom:32px;">
+        <span data-i18n="apply.cta">Post on Instagram</span>
+        <svg viewBox="0 0 20 14"><path d="M13 1L19 7M19 7L13 13M19 7H1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <p class="stage1-note" data-i18n="apply.note">By posting, you consent to the use of your materials by the organizers and partners on social media. Responses will be sent via Instagram DM — keep an eye on your messages.</p>
+    </div>
+    <div>
+      <p class="sec-label" style="margin-bottom:20px;" data-i18n="apply.reqTitle">Video Requirements</p>
+      <ul class="req-list">
+        <li data-i18n="apply.req1">Public account — video must be in your feed</li>
+        <li data-i18n="apply.req2">Hashtag #laimavoice2026 is mandatory</li>
+        <li data-i18n="apply.req3">Good audio quality</li>
+        <li data-i18n="apply.req4">Must demonstrate vocal ability</li>
+        <li data-i18n="apply.req5">Minimum duration: 40 seconds</li>
+        <li data-i18n="apply.req6">Video must be from 2025 or later</li>
+        <li data-i18n="apply.req7">Unlimited submissions per account allowed</li>
+      </ul>
+    </div>
+  </div>
+  <div class="cert-banner">
+    <div class="cert-banner-icon">🏆</div>
+    <div>
+      <div class="cert-banner-title" data-i18n="apply.certTitle">Early Bird Festival Certificates</div>
+      <p class="cert-banner-text" data-i18n="apply.certText">The most standout participants who post their video with #laimavoice2026 before June 1, 2026 will receive special festival certificates — access to concerts, star rehearsals and a behind-the-scenes experience at Laima Rendezvous Jūrmala.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TICKETS -->
+<section class="section section-gray" id="tickets">
+  <div class="tickets-inner">
+    <div>
+      <p class="sec-label" data-i18n="tickets.title">Coming to Jurmala?</p>
+      <h2 class="sec-heading" data-i18n="tickets.title">Coming to Jurmala?</h2>
+      <div class="red-bar"></div>
+      <p class="sec-text" data-i18n="tickets.description">Participants, families and supporters will have access to a special ticket offer for Laima Rendezvous Jurmala festival.</p>
+    </div>
+    <div>
+      <a href="https://laimafestival.lv" target="_blank" rel="noopener" class="lv-btn" style="height:54px;font-size:11px;letter-spacing:2.5px;">
+        <span data-i18n="tickets.cta">Get Festival Tickets</span>
+        <svg viewBox="0 0 20 14"><path d="M13 1L19 7M19 7L13 13M19 7H1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PREVIOUS EDITION -->
+<section class="section section-dark" id="previous-edition">
+  <p class="sec-label" data-i18n="previousEdition.title">First Laima Voice Edition</p>
+  <h2 class="sec-heading" data-i18n="previousEdition.title">First Laima Voice Edition</h2>
+  <div class="red-bar"></div>
+  <p class="sec-text" style="max-width:680px;" data-i18n="previousEdition.description">The first Laima Voice contest took place online five years ago, during the Covid period. It brought together young voices, online performances and international attention. This page will later include photos, videos and memories from the first edition.</p>
+  <div class="prev-grid">
+    <div class="prev-card">
+      <div class="prev-embed">
+        <iframe src="https://www.youtube.com/embed/7vsA7E7BxCs" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="prev-card-label" data-i18n="previousEdition.performance">Performance Highlights</div>
+    </div>
+    <div class="prev-card">
+      <div class="prev-embed">
+        <iframe src="https://www.youtube.com/embed/fKjG3IP1bww" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="prev-card-label" data-i18n="previousEdition.moments">Contest Moments</div>
+    </div>
+    <div class="prev-card">
+      <div class="prev-embed">
+        <iframe src="https://www.youtube.com/embed/3iXe7zODFaU?start=584" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="prev-card-label" data-i18n="previousEdition.winner">Winner Announcement</div>
+    </div>
+  </div>
+</section>
+
+<!-- JURMALA JUNIOR -->
+<section class="section" id="jurmala-junior">
+  <div class="jj-inner">
+    <div class="jj-visual">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75M9 11a4 4 0 100-8 4 4 0 000 8z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <p data-i18n="jurmalaJunior.title">Jurmala Junior</p>
+    </div>
+    <div>
+      <p class="sec-label" data-i18n="jurmalaJunior.subtitle">Children's Creative Camp</p>
+      <h2 class="sec-heading" data-i18n="jurmalaJunior.title">Jurmala Junior</h2>
+      <p class="sec-subtitle" style="color:#888;margin-bottom:0;font-style:italic;" data-i18n="jurmalaJunior.subtitle">Children's Creative Camp</p>
+      <div class="red-bar"></div>
+      <p class="sec-text" data-i18n="jurmalaJunior.description">Alongside Laima Voice, a children's creative camp "Jurmala Junior" will also take place in Jurmala. It is a separate program with its own application process, created for children and young talents who want to experience music, creativity and festival atmosphere.</p>
+      <div style="margin-top:36px;">
+        <a href="#" class="lv-btn" style="height:52px;font-size:11px;letter-spacing:2.5px;">
+          <span data-i18n="jurmalaJunior.cta">Learn More About Jurmala Junior</span>
+          <svg viewBox="0 0 20 14"><path d="M13 1L19 7M19 7L13 13M19 7H1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section section-gray" id="faq">
+  <p class="sec-label" data-i18n="faq.title">FAQ</p>
+  <h2 class="sec-heading" data-i18n="faq.title">Frequently Asked Questions</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-question">
+        <span class="faq-q-text" data-i18n="faq.q1">Who can apply?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner" data-i18n="faq.a1">Laima Voice is open to talented singers of all nationalities. Age requirements and specific eligibility criteria will be announced with the official rules.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">
+        <span class="faq-q-text" data-i18n="faq.q2">When will casting take place?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner" data-i18n="faq.a2">Casting dates will be announced soon. Follow our social media and check this website for updates.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">
+        <span class="faq-q-text" data-i18n="faq.q3">Is the contest online or live?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner" data-i18n="faq.a3">The new edition of Laima Voice will have a live format, connected to the Laima Rendezvous Jurmala festival. Details about the casting format will be announced.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">
+        <span class="faq-q-text" data-i18n="faq.q4">Where will the event take place?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner" data-i18n="faq.a4">The contest events will take place in Jurmala, Latvia, as part of the Laima Rendezvous Jurmala festival.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">
+        <span class="faq-q-text" data-i18n="faq.q5">How can I get festival tickets?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner" data-i18n="faq.a5">Special ticket offers for participants, families and supporters will be available. Check the Tickets section for more information.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section section-dark" id="contact">
+  <p class="sec-label" data-i18n="contact.title">Contact</p>
+  <h2 class="sec-heading" data-i18n="contact.title">Contact</h2>
+  <p class="sec-subtitle" data-i18n="contact.subtitle">For questions and cooperation</p>
+  <div class="contact-grid">
+    <div class="contact-block">
+      <div class="contact-block-title" data-i18n="contact.email">Email</div>
+      <div class="contact-block-val"><a href="mailto:info@laimavoice.com">info@laimavoice.com</a></div>
+    </div>
+    <div class="contact-block">
+      <div class="contact-block-title" data-i18n="contact.whatsapp">WhatsApp</div>
+      <div class="contact-block-val"><a href="https://wa.me/371XXXXXXXX">+371 XXXXXXXX</a></div>
+    </div>
+    <div class="contact-block">
+      <div class="contact-block-title" data-i18n="contact.followUs">Follow us</div>
+      <div class="social-links">
+        <a href="https://www.instagram.com/laimafestival?igsh=aDg1ZWVwbmJudjMy" target="_blank" rel="noopener" class="social-link">Instagram</a>
+        <a href="https://www.facebook.com/share/1Fsa7WzpQt/?mibextid=wwXIfr" target="_blank" rel="noopener" class="social-link">Facebook</a>
+        <a href="https://www.youtube.com/@laimafestival" target="_blank" rel="noopener" class="social-link">YouTube</a>
+        <a href="https://www.tiktok.com/@laima_vaikule_official?_r=1&_t=ZN-96F0oofaFHC" target="_blank" rel="noopener" class="social-link">TikTok</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <div>
+    <div class="cta-eyebrow">Laima Rendezvous Jūrmala 2026</div>
+    <h2 class="cta-title" data-i18n="hero.subtitle">International vocal contest returns</h2>
+  </div>
+  <div class="cta-actions">
+    <a href="#apply" class="lv-btn lv-btn-white" style="height:52px;font-size:11px;letter-spacing:2.5px;" data-i18n="nav.applyNow">Apply Now</a>
+    <a href="https://laimafestival.lv" target="_blank" rel="noopener" class="lv-btn lv-btn-ghost" style="height:52px;font-size:11px;letter-spacing:2.5px;">laimafestival.lv</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo"><img src="laima-voice-assets/logo-h.jpg" alt="Laima Voice"></div>
+      <p class="footer-desc" data-i18n="footer.tagline">Part of the Laima Rendezvous Jurmala festival ecosystem.</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/laimafestival?igsh=aDg1ZWVwbmJudjMy" target="_blank" rel="noopener" class="footer-social" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/share/1Fsa7WzpQt/?mibextid=wwXIfr" target="_blank" rel="noopener" class="footer-social" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@laimafestival" target="_blank" rel="noopener" class="footer-social" aria-label="YouTube">
+          <svg viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@laima_vaikule_official?_r=1&_t=ZN-96F0oofaFHC" target="_blank" rel="noopener" class="footer-social" aria-label="TikTok">
+          <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigation</div>
+      <div class="footer-links">
+        <a href="#about"          data-i18n="nav.about">About</a>
+        <a href="#how"            data-i18n="nav.howItWorks">How It Works</a>
+        <a href="#apply"          data-i18n="nav.apply">Apply</a>
+        <a href="#tickets"        data-i18n="nav.tickets">Tickets</a>
+        <a href="#jurmala-junior" data-i18n="nav.jurmalaJunior">Jurmala Junior</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact"        data-i18n="nav.contact">Contact</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title" data-i18n="contact.title">Contact</div>
+      <div class="footer-contact">
+        <p><a href="mailto:info@laimavoice.com">info@laimavoice.com</a></p>
+        <p style="margin-top:8px;"><a href="https://wa.me/371XXXXXXXX">+371 XXXXXXXX</a></p>
+        <p style="margin-top:20px;">Festival:<br>
+          <a href="https://laimafestival.lv" target="_blank" rel="noopener" class="footer-lf">laimafestival.lv</a>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span data-i18n="footer.copyright">Laima Voice © 2026</span>
+    <div style="display:flex;gap:18px;">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Contest Rules</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Translations ──────────────────────────────────────────────
+const T = {
+  en: {
+    nav: { about:'About', howItWorks:'How It Works', apply:'Participate', tickets:'Tickets', jurmalaJunior:'Jurmala Junior', contact:'Contact', applyNow:'Take Part' },
+    hero: { title:'Laima Voice', subtitle:'International Vocal Contest', description:'Laima Vaikule and the Laima Rendezvous Jūrmala festival invite talents from around the world to take part in the international vocal contest Laima Voice. Grand prize — a chance to perform on the same stage with the stars at Laima Rendezvous Jūrmala in 2027.', applyCasting:'Take Part', learnMore:'Learn More' },
+    about: { title:'About the Festival', p1:'The Laima Rendezvous Jūrmala festival has been held since 2015 and has become an important part of the cultural life of Jurmala and the main summer music event in Latvia. Every year, world-renowned artists and young performers from many countries take the stage together, creating unique musical collaborations.', p2:'The festival audience exceeds 100 million viewers worldwide through international TV broadcasts, the YouTube channel and social media.' },
+    howItWorks: { title:'How It Works', subtitle:'Three stages to the main stage',
+      step1Title:'Stage 1 — Online', step1Desc:'Post a video of your vocal performance on Instagram with #laimavoice2026 by July 12, 2026. Open to everyone regardless of age or country.',
+      step2Title:'Stage 2 — Live Casting', step2Desc:'July 25, 2026 in Jurmala during Laima Rendezvous Jūrmala. Selected participants are personally invited via Instagram DM. Entry fee: 70€.',
+      step3Title:'Stage 3 — Final & Grand Prize', step3Desc:'Finalists meet Laima Vaikule personally online in September. She gives vocal challenges throughout the year and chooses the winner. Grand Prize — perform on stage at Laima Rendezvous Jūrmala 2027.' },
+    apply: { label:'Stage 1', title:'Post Your Performance', deadline:'Deadline: 12 July 2026', tagLine:'Tag <strong>@laimafestival</strong> so we don\'t miss you!', cta:'Post on Instagram', note:'By posting, you consent to the use of your materials by the organizers and partners on social media. Responses will be sent via Instagram DM — keep an eye on your messages.', reqTitle:'Video Requirements', req1:'Public account — video must be in your feed', req2:'Hashtag #laimavoice2026 is mandatory', req3:'Good audio quality', req4:'Must demonstrate vocal ability', req5:'Minimum duration: 40 seconds', req6:'Video must be from 2025 or later', req7:'Unlimited submissions per account allowed', certTitle:'Early Bird Festival Certificates', certText:'The most standout participants who post their video with #laimavoice2026 before June 1, 2026 will receive special festival certificates — access to concerts, star rehearsals and a behind-the-scenes experience at Laima Rendezvous Jūrmala.' },
+    tickets: { title:'Coming to Jurmala?', description:'Stage 2 participants receive a special promo code for bilesuserviss.lv to purchase tickets for all festival days for themselves and their guests. The promo code is issued as soon as you advance to Stage 2.', cta:'Get Festival Tickets' },
+    previousEdition: { title:'First Laima Voice Edition', description:'The first Laima Voice vocal contest brought together young voices, online performances and international attention. Watch the highlights from that edition below.', performance:'Performance Highlights', moments:'Contest Moments', winner:'Winner Announcement' },
+    jurmalaJunior: { title:'Jurmala Junior', subtitle:"Children's Creative Camp", description:"Alongside Laima Voice, a children's creative camp \"Jurmala Junior\" will also take place in Jurmala. It is a separate program with its own application process, created for children and young talents who want to experience music, creativity and festival atmosphere.", cta:'Learn More About Jurmala Junior' },
+    faq: { title:'Frequently Asked Questions',
+      q1:'Who can take part in Stage 1?', a1:'Anyone, regardless of age or country. Simply post your video on Instagram with #laimavoice2026 before July 12, 2026.',
+      q2:'How will I know if I am selected for Stage 2?', a2:'The organizers will contact selected participants directly via Instagram DM. Make sure your account is public and your DMs are open.',
+      q3:'What does Stage 2 cost and where does it take place?', a3:'Stage 2 is an in-person casting on July 25, 2026 in Jurmala, during the Laima Rendezvous Jūrmala festival. The entry fee is 70€. All details are sent personally upon invitation.',
+      q4:'What is the grand prize?', a4:'The winner performs on stage at the Laima Rendezvous Jūrmala festival in 2027, alongside internationally known artists.',
+      q5:'Can I get festival tickets as a participant?', a5:'Yes. Stage 2 participants receive a special promo code for bilesuserviss.lv to purchase tickets for all festival days for themselves and their guests.' },
+    contact: { title:'Contact', subtitle:'For questions and cooperation', email:'Email', whatsapp:'WhatsApp', followUs:'Follow us' },
+    footer: { copyright:'Laima Voice © 2026', tagline:'Part of the Laima Rendezvous Jūrmala festival ecosystem.' }
+  },
+  lv: {
+    nav: { about:'Par festivālu', howItWorks:'Kā piedalīties', apply:'Piedalīties', tickets:'Biļetes', jurmalaJunior:'Jūrmala Junior', contact:'Kontakti', applyNow:'Piedalīties' },
+    hero: { title:'Laima Voice', subtitle:'Starptautiskais vokālais konkurss', description:'Laima Vaikule un festivāls Laima Rendezvous Jūrmala aicina talantus no visas pasaules piedalīties starptautiskajā vokālo mākslinieku konkursā Laima Voice. Galvenā balva — iespēja uzstāties uz vienas skatuves ar zvaigznēm Laima Rendezvous Jūrmala festivālā 2027. gadā.', applyCasting:'Piedalīties', learnMore:'Uzzināt vairāk' },
+    about: { title:'Par festivālu', p1:'Festivāls Laima Rendezvous Jūrmala notiek kopš 2015. gada un ir kļuvis par svarīgu Jūrmalas kultūras dzīves daļu un galveno vasaras mūzikas notikumu Latvijā. Katru gadu uz skatuves uzstājas pasaulē pazīstami mākslinieki un jauni izpildītāji no daudzām valstīm, veidojot unikālas mūzikas kolaborācijas.', p2:'Festivāla auditorija pārsniedz 100 miljonus skatītāju visā pasaulē, pateicoties starptautiskajām TV pārraidēm, YouTube kanālam un sociālajiem tīkliem.' },
+    howItWorks: { title:'Kā piedalīties', subtitle:'Trīs posmi līdz lielajai skatuvei',
+      step1Title:'1. posms — Tiešsaistē', step1Desc:'Publicē Instagram sava vokālā priekšnesuma video ar #laimavoice2026 līdz 2026. gada 12. jūlijam. Var piedalīties jebkurš neatkarīgi no vecuma un valsts.',
+      step2Title:'2. posms — Klātienes kārtings', step2Desc:'2026. gada 25. jūlijā Jūrmalā, Laima Rendezvous Jūrmala festivāla laikā. Atlasītie dalībnieki tiek uzaicināti personīgi caur Instagram DM. Dalības maksa: 70€.',
+      step3Title:'3. posms — Fināls un galvenā balva', step3Desc:'Finalisti tieksies ar Laimu Vaikuli personīgi tiešsaistē septembrī. Gada laikā viņa dos vokālos uzdevumus un izvēlēsies uzvarētāju. Galvenā balva — uzstāšanās Laima Rendezvous Jūrmala 2027. gadā.' },
+    apply: { label:'1. posms', title:'Publicē savu priekšnesumu', deadline:'Termiņš: 2026. gada 12. jūlijs', tagLine:'Atzīmē <strong>@laimafestival</strong>, lai mēs tevi noteikti pamanītu!', cta:'Publicēt Instagram', note:'Publicējot video, dalībnieks automātiski piekrīt organizatoru un partneru tiesībām izmantot materiālus sociālajos tīklos. Atbilde tiks nosūtīta caur Instagram DM — sekojiet ziņojumiem.', reqTitle:'Video prasības', req1:'Publiski pieejams konts — video jābūt pieejamam plūsmā', req2:'Mirkļbirka #laimavoice2026 ir obligāta', req3:'Laba skaņas kvalitāte', req4:'Video jādemonstē vokālās spējas', req5:'Minimālais ilgums: 40 sekundes', req6:'Video nedrīkst būt vecāks par 2025. gadu', req7:'Atļauts publicēt neierobežotu skaitu video no viena konta', certTitle:'Agrīnā putna festivāla sertifikāti', certText:'Spilgtākie dalībnieki, kas publicēs video ar #laimavoice2026 pirms 2026. gada 1. jūnija, saņems īpašus festivāla sertifikātus — iespēju apmeklēt koncertus, zvaigžņu mēģinājumus un iepazīt kulises no iekšienes.' },
+    tickets: { title:'Braucat uz Jūrmalu?', description:'2. posma dalībnieki saņem īpašu promo kodu bilesuserviss.lv biļešu iegādei uz visām festivāla dienām sev un pavadošajiem. Promo kods tiek izsniegts, tiklīdz iekļūstat 2. posmā.', cta:'Iegūt festivāla biļetes' },
+    previousEdition: { title:'Pirmā Laima Voice izdevuma', description:'Pirmais Laima Voice vokālais konkurss apvienoja jaunas balsis, tiešsaistes priekšnesumus un starptautisku uzmanību. Skatiet labākos fragmentus no tā izdevuma zemāk.', performance:'Uzstāšanās fragmenti', moments:'Konkursa brīži', winner:'Uzvarētāja paziņošana' },
+    jurmalaJunior: { title:'Jūrmala Junior', subtitle:'Bērnu radošā nometne', description:'Līdzās Laima Voice, Jūrmalā notiks arī bērnu radošā nometne "Jūrmala Junior". Tā ir atsevišķa programma ar savu pieteikšanās procesu, veidota bērniem un jauniem talantiem.', cta:'Uzzināt vairāk par Jūrmala Junior' },
+    faq: { title:'Biežāk uzdotie jautājumi',
+      q1:'Kurš var piedalīties 1. posmā?', a1:'Jebkurš neatkarīgi no vecuma un valsts. Vienkārši publicē video Instagram ar #laimavoice2026 līdz 2026. gada 12. jūlijam.',
+      q2:'Kā uzzināšu, vai esmu atlasīts 2. posmam?', a2:'Organizatori sazināsies ar atlasītajiem dalībniekiem personīgi caur Instagram DM. Pārliecinies, ka tavs konts ir publiski pieejams.',
+      q3:'Cik maksā 2. posms un kur tas notiek?', a3:'2. posms ir klātienes kārtings 2026. gada 25. jūlijā Jūrmalā, Laima Rendezvous Jūrmala festivāla laikā. Dalības maksa: 70€.',
+      q4:'Kas ir galvenā balva?', a4:'Uzvarētājs uzstājas uz Laima Rendezvous Jūrmala festivāla skatuves 2027. gadā kopā ar starptautiski pazīstamiem māksliniekiem.',
+      q5:'Vai varu iegūt festivāla biļetes kā dalībnieks?', a5:'Jā. 2. posma dalībnieki saņem īpašu promo kodu bilesuserviss.lv biļešu iegādei uz visām festivāla dienām.' },
+    contact: { title:'Kontakti', subtitle:'Jautājumiem un sadarbībai', email:'E-pasts', whatsapp:'WhatsApp', followUs:'Sekojiet mums' },
+    footer: { copyright:'Laima Voice © 2026', tagline:'Daļa no Laima Rendezvous Jūrmala festivāla ekosistēmas.' }
+  },
+  ru: {
+    nav: { about:'О фестивале', howItWorks:'Как участвовать', apply:'Участвовать', tickets:'Билеты', jurmalaJunior:'Юрмала Джуниор', contact:'Контакты', applyNow:'Участвовать' },
+    hero: { title:'Laima Voice', subtitle:'Международный вокальный конкурс', description:'Лайма Вайкуле и фестиваль Laima Rendezvous Jūrmala приглашают таланты со всего мира принять участие в международном конкурсе вокалистов «Laima Voice». Главный приз — возможность выступить на одной сцене со звёздами в рамках фестиваля «Laima Rendezvous Jūrmala» в 2027 году.', applyCasting:'Участвовать', learnMore:'Узнать больше' },
+    about: { title:'О фестивале', p1:'Фестиваль Laima Rendezvous Jūrmala проводится с 2015 года и стал важной частью культурной жизни Юрмалы и главным летним музыкальным событием Латвии. Каждый год на его сцене выступают известные артисты и молодые исполнители из разных стран мира, создавая уникальные музыкальные коллаборации.', p2:'Аудитория фестиваля превышает 100 миллионов зрителей по всему миру благодаря международным телетрансляциям, YouTube-каналу и социальным сетям.' },
+    howItWorks: { title:'Как участвовать', subtitle:'Три этапа к главной сцене',
+      step1Title:'Первый этап — онлайн', step1Desc:'До 12 июля 2026 года опубликуйте в Instagram видео вашего вокального выступления с хэштегом #laimavoice2026. Участвовать может любой желающий вне зависимости от возраста и страны.',
+      step2Title:'Второй этап — очный кастинг', step2Desc:'25 июля 2026 года в Юрмале в рамках фестиваля Laima Rendezvous Jūrmala. Отобранные участники получают личное приглашение через Instagram. Стоимость участия: 70€.',
+      step3Title:'Третий этап — финал и главный приз', step3Desc:'Финалисты встретятся с Лаймой Вайкуле лично в онлайн-формате в сентябре. В течение года она будет давать вокальные задания и выберет победителя. Главный приз — выступление на сцене Laima Rendezvous Jūrmala в 2027 году.' },
+    apply: { label:'Первый этап', title:'Опубликуй своё выступление', deadline:'Срок: 12 июля 2026 года', tagLine:'Отмечайте страницу <strong>@laimafestival</strong>, чтобы мы вас увидели!', cta:'Опубликовать в Instagram', note:'Размещая видео, участник автоматически даёт согласие организаторам и партнёрам на использование материалов в социальных сетях. Ответ будет направлен через Instagram Direct — следите за сообщениями.', reqTitle:'Требования к видео', req1:'Аккаунт должен быть открытым, видео — доступным в ленте', req2:'Хэштег #laimavoice2026 обязателен', req3:'Хорошее качество звука', req4:'Видео должно демонстрировать вокальные способности', req5:'Длительность — не менее 40 секунд', req6:'Ролик должен быть не старше 2025 года', req7:'Допускается публикация неограниченного количества видео с одного аккаунта', certTitle:'Ранние сертификаты фестиваля', certText:'Самые яркие участники, опубликовавшие видео с #laimavoice2026 до 1 июня 2026 года, получат специальные сертификаты фестиваля — возможность посетить концерты, репетиции звёзд и прикоснуться к атмосфере закулисья.' },
+    tickets: { title:'Едете в Юрмалу?', description:'Участники второго этапа получают специальный промокод на bilesuserviss.lv для приобретения билетов на все дни фестиваля для себя и сопровождающих. Промокод выдаётся сразу после попадания во второй этап.', cta:'Получить билеты на фестиваль' },
+    previousEdition: { title:'Первый Laima Voice', description:'Первый вокальный конкурс Laima Voice объединил молодые голоса, онлайн-выступления и международное внимание. Смотрите лучшие моменты того конкурса ниже.', performance:'Фрагменты выступлений', moments:'Моменты конкурса', winner:'Объявление победителя' },
+    jurmalaJunior: { title:'Юрмала Джуниор', subtitle:'Детский творческий лагерь', description:'Наряду с Laima Voice, в Юрмале также пройдёт детский творческий лагерь «Юрмала Джуниор». Это отдельная программа со своим процессом подачи заявок, созданная для детей и молодых талантов.', cta:'Узнать больше о Юрмала Джуниор' },
+    faq: { title:'Часто задаваемые вопросы',
+      q1:'Кто может участвовать в первом этапе?', a1:'Любой желающий вне зависимости от возраста и страны. Достаточно опубликовать видео в Instagram с хэштегом #laimavoice2026 до 12 июля 2026 года.',
+      q2:'Как узнать, прошёл ли я во второй этап?', a2:'Организаторы свяжутся с отобранными участниками лично через Instagram Direct. Убедитесь, что ваш аккаунт открыт и директ доступен.',
+      q3:'Сколько стоит второй этап и где он проходит?', a3:'Второй этап — очный кастинг 25 июля 2026 года в Юрмале, в рамках фестиваля Laima Rendezvous Jūrmala. Стоимость участия: 70€. Все детали высылаются лично после приглашения.',
+      q4:'Что такое главный приз?', a4:'Победитель выступает на сцене фестиваля Laima Rendezvous Jūrmala в 2027 году вместе с международно известными артистами.',
+      q5:'Могу ли я получить билеты на фестиваль как участник?', a5:'Да. Участники второго этапа получают специальный промокод на bilesuserviss.lv для покупки билетов на все дни фестиваля для себя и сопровождающих.' },
+    contact: { title:'Контакты', subtitle:'Для вопросов и сотрудничества', email:'Электронная почта', whatsapp:'WhatsApp', followUs:'Подписывайтесь' },
+    footer: { copyright:'Laima Voice © 2026', tagline:'Часть экосистемы фестиваля Laima Rendezvous Jūrmala.' }
+  }
+};
+
+// ── Language switch ──────────────────────────────────────────
+let currentLang = 'en';
+
+function getVal(lang, key) {
+  const parts = key.split('.');
+  let obj = T[lang];
+  for (const p of parts) { if (obj == null) return ''; obj = obj[p]; }
+  return obj || '';
+}
+
+function applyLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const val = getVal(lang, el.dataset.i18n);
+    if (val) el.textContent = val;
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const val = getVal(lang, el.dataset.i18nHtml);
+    if (val) el.innerHTML = val;
+  });
+
+  // Sync all lang buttons
+  document.querySelectorAll('[data-lang]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+}
+
+// Attach language button listeners
+document.querySelectorAll('[data-lang]').forEach(btn => {
+  btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+});
+
+// ── Mobile nav ───────────────────────────────────────────────
+const mobileNav = document.getElementById('lv-mobile-nav');
+const closeNav = () => { mobileNav.classList.remove('open'); document.body.style.overflow = ''; };
+document.getElementById('lv-hamburger').addEventListener('click', () => {
+  mobileNav.classList.add('open'); document.body.style.overflow = 'hidden';
+});
+document.getElementById('lv-mob-close').addEventListener('click', closeNav);
+document.querySelectorAll('.mob-link').forEach(l => l.addEventListener('click', closeNav));
+
+// ── FAQ accordion ────────────────────────────────────────────
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.querySelector('.faq-question').addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-answer').style.maxHeight = '0';
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      const ans = item.querySelector('.faq-answer');
+      ans.style.maxHeight = ans.scrollHeight + 'px';
+    }
+  });
+});
+
+// ── form removed ─────────────────────────────────────────────
+
+applyLang('en');
+
+// ── Smooth scroll ────────────────────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    if (id === '#') return;
+    const t = document.querySelector(id);
+    if (t) { e.preventDefault(); window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 80, behavior: 'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>
